@@ -1,10 +1,12 @@
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {Text, View} from 'react-native';
+import MainNavigation from './navigation/MainNavigation';
 
 export default function App() {
   return (
-    <View>
-      <Text>Welcome to Home</Text>
-    </View>
+    <NavigationContainer>
+      <MainNavigation />
+    </NavigationContainer>
   );
 }

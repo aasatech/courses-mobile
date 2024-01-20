@@ -2,10 +2,10 @@ import React from 'react';
 import Layout from '../../components/ui/Layout';
 import { Text } from 'react-native';
 
-export default function Home() {
+export default function Contact() {
   return (
     <Layout>
-      <Text>Welcome to Home Screen</Text>
+      <Text>Welcome to Contact Screen</Text>
     </Layout>
   );
 }

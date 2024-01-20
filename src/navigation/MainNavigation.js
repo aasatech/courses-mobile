@@ -25,9 +25,7 @@ export default function MainNavigation() {
           headerShown: false,
           tabBarActiveTintColor: GColor.secondary100,
           tabBarInactiveTintColor: GColor.accent300,
-          tabBarIconStyle: {
-    
-          },
+          tabBarIconStyle: {},
           // tabBarActiveBackgroundColor:'black',
           tabBarStyle: {
             backgroundColor: GColor.primary500,

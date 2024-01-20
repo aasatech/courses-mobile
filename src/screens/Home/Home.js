@@ -1,11 +1,12 @@
 import React from 'react';
 import Layout from '../../components/ui/Layout';
-import { Text } from 'react-native';
+import {Text} from 'react-native';
+import {GColor} from '../../constants/Global';
 
 export default function Home() {
   return (
     <Layout>
-      <Text>Welcome to Home Screen</Text>
+      <Text style={{color: GColor.accent300}}>Welcome to Home Screen</Text>
     </Layout>
   );
 }

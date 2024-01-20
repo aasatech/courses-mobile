@@ -17,7 +17,11 @@ export default function Register({navigation}) {
         </View>
 
         <View style={styles.textHeader}>
-          <HeadLine label="Create an Account" size={'lg'} />
+          <HeadLine
+            color={GColor.accent300}
+            label="Create an Account"
+            size={'lg'}
+          />
         </View>
         <Input
           label="Name"
@@ -53,7 +57,7 @@ export default function Register({navigation}) {
         </View>
 
         <View style={{alignItems: 'center'}}>
-          <HeadLine label="Already have an account?" />
+          <HeadLine label="Already have an account?" color={GColor.accent300}/>
           <Pressable onPress={() => navigation.navigate(routeApp.Login)}>
             <HeadLine label="Login Here" color={GColor.primary500} />
           </Pressable>
@@ -74,9 +78,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginVertical: 15,
-
-    borderBottomWidth: 1,
     paddingBottom: 25,
-    borderBottomColor: 'grey',
+
+    
   },
 });

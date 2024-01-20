@@ -18,7 +18,11 @@ export default function Login({navigation}) {
         </View>
 
         <View style={styles.textHeader}>
-          <HeadLine label="Connect with your account" size={'lg'} />
+          <HeadLine
+            color={GColor.accent300}
+            label="Connect with your account"
+            size={'lg'}
+          />
         </View>
 
         <Input
@@ -44,9 +48,9 @@ export default function Login({navigation}) {
         </View>
 
         <View style={{alignItems: 'center'}}>
-          <HeadLine label="Don't have an accounts? " />
+          <HeadLine label="Don't have an account? " color={GColor.accent300} />
           <Pressable onPress={() => navigation.navigate(routeApp.Register)}>
-            <HeadLine label="Login" color={GColor.primary500} />
+            <HeadLine label="Sign Up" color={GColor.primary500} />
           </Pressable>
         </View>
       </View>
@@ -66,8 +70,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginVertical: 15,
 
-    borderBottomWidth: 1,
+
     paddingBottom: 25,
-    borderBottomColor: 'grey',
+
   },
 });

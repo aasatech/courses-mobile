@@ -28,6 +28,8 @@ export default function Input({
           placeholder={placeholder}
           returnKeyType={returnKeyType}
           secureTextEntry={isShow}
+          placeholderTextColor={GColor.accent300}
+          style={styles.textInput}
           ref={textRef}></TextInput>
         {props?.secureTextEntry && (
           <View style={styles.iconSecureText}>
@@ -50,21 +52,18 @@ export default function Input({
 const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 10,
-    backgroundColor: GColor.secondary100,
+    backgroundColor: GColor.grey400,
     padding: 2,
     borderRadius: 10,
     // position: 'relative',
   },
-  // securePasswordLayout: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  // },
+  textInput: {
+    color: GColor.accent300,
+  },
+
   iconSecureText: {
     position: 'absolute',
     right: 0,
-    // zIndex: 100,
-    // backgroundColor:'grey',
     top: 0,
     bottom: 0,
     justifyContent: 'center',

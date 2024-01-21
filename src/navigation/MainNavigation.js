@@ -74,37 +74,61 @@ export default function MainNavigation() {
       </Tab.Navigator>
     );
   };
-  return (
-    <Stack.Navigator initialRouteName={routeApp.Main}>
-      <Stack.Screen
-        name={routeApp.Main}
-        component={Intro}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={routeApp.Login}
-        component={Login}
-        options={{
-          headerShown: false,
-          // animationEnabled: false,
-        }}
-      />
-      <Stack.Screen
-        name={routeApp.Register}
-        component={Register}
-        options={{
-          headerShown: false,
-          // animationEnabled: false,
-        }}
-      />
 
-      <Stack.Screen
-        name={routeApp.Home.main}
-        component={TabScreen}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
-  );
+  const AuthorizeStack = () => {
+    return (
+      <Stack.Navigator initialRouteName={routeApp.Home.main}>
+        <Stack.Screen
+          name={routeApp.Home.main}
+          component={TabScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={routeApp.Main}
+          component={Intro}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
+
+  const NonAuthorizeStack = () => {
+    return (
+      <Stack.Navigator initialRouteName={routeApp.Main}>
+        <Stack.Screen
+          name={routeApp.Main}
+          component={Intro}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={routeApp.Login}
+          component={Login}
+          options={{
+            headerShown: false,
+            // animationEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name={routeApp.Register}
+          component={Register}
+          options={{
+            headerShown: false,
+            // animationEnabled: false,
+          }}
+        />
+
+        <Stack.Screen
+          name={routeApp.Home.main}
+          component={TabScreen}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    );
+  };
+
+  return <NonAuthorizeStack />;
 }

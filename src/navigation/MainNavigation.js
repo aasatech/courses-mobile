@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Routes, routeApp} from '../routes/Routes';
 import Intro from '../screens/Intro';
 import Login from '../screens/Login.js/Login';
@@ -12,11 +12,17 @@ import Contact from '../screens/Home/Contact';
 import Account from '../screens/Home/Account';
 import {GColor} from '../constants/Global';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
+import {checkSession, getToken} from '../store/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ActivityIndicator} from 'react-native';
 
 export default function MainNavigation() {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
-
+  const auth = useSelector(store => store.auth);
+  const dispatch = useDispatch();
+  console.log(auth.initValues);
   const TabScreen = () => {
     return (
       <Tab.Navigator
@@ -129,6 +135,21 @@ export default function MainNavigation() {
       </Stack.Navigator>
     );
   };
+  const [isloading, setLoading] = useState(true);
+  useLayoutEffect(() => {
+    // async function checkSession() {
+    //   const token = await AsyncStorage.getItem('token');
+    //   console.log('local token', token);
+    // }
+    // checkSession();
+    dispatch(getToken());
+  }, []);
 
-  return <NonAuthorizeStack />;
+  console.log('token is', auth?.token);
+  console.log(!auth.token);
+  if (auth?.token === '') {
+    return null;
+  }
+
+  return !auth?.token ? <NonAuthorizeStack /> : <AuthorizeStack />;
 }

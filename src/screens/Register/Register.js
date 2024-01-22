@@ -9,17 +9,27 @@ import {GColor} from '../../constants/Global';
 import {Routes, routeApp} from '../../routes/Routes';
 import {Field, Form, Formik} from 'formik';
 import {SignUpSchema} from '../../schemas';
+import {useDispatch} from 'react-redux';
+import {signup} from '../../store/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Register({navigation}) {
   const [form, setForm] = useState({
     username: '',
     email: '',
     password: '',
-    cfpassword: '',
+    comfirmpassword: '',
   });
+  const dispatch = useDispatch();
   const handleSubmit = values => {
     if (values) {
-      navigation.replace(routeApp.Home.main);
+      navigation.reset({
+        index: 0,
+        routes: [{name: routeApp.Home.main}],
+      });
+      dispatch(signup(values));
+
+      AsyncStorage.setItem('token', values.email).then(() => {});
     }
 
     // alert(JSON.stringify(values, null, 2));
@@ -88,15 +98,15 @@ export default function Register({navigation}) {
                 />
 
                 <Field
-                  id="cfpassword"
+                  id="comfirmpassword"
                   label="Password Comfirmation"
                   placeholder="Password Comfirmation"
                   keyboardType="default"
                   secureTextEntry
                   returnKeyType="next"
                   value={props.values.cfpassword}
-                  onChangeText={props.handleChange('cfpassword')}
-                  onBlur={props.handleBlur('cfpassword')}
+                  onChangeText={props.handleChange('comfirmpassword')}
+                  onBlur={props.handleBlur('comfirmpassword')}
                   component={Input}
                 />
 

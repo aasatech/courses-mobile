@@ -28,7 +28,7 @@ export default function Input({
             {...props}
             id={props.id}
             placeholder={placeholder}
-            returnKeyType={returnKeyType}
+            returnKeyType={'next'}
             secureTextEntry={isShow}
             placeholderTextColor={GColor.accent300}
             style={styles.textInput}

@@ -10,18 +10,27 @@ import Input from '../../components/Input';
 import {TextInput} from 'react-native-gesture-handler';
 import {ErrorMessage, Field, Formik} from 'formik';
 import {LoginSchema} from '../../schemas';
+import {useDispatch} from 'react-redux';
+import {login} from '../../store/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}) {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-  const handleSubmit = values => {
+  const txtPassword = useRef(null);
+  const dispatch = useDispatch();
+  const handleSubmit = async values => {
     if (values) {
-      navigation.replace(routeApp.Home.main);
-    }
+      dispatch(login(values));
 
-    // alert(JSON.stringify(values, null, 2));
+      navigation.reset({
+        index: 0,
+        routes: [{name: routeApp.Home.main}],
+      });
+      await AsyncStorage.setItem('token', values.email);
+    }
   };
   return (
     <Layout>
@@ -38,14 +47,11 @@ export default function Login({navigation}) {
           />
         </View>
         <Formik
-          initialValues={{
-            email: '',
-            password: '',
-          }}
+          initialValues={form}
           validationSchema={LoginSchema}
           onSubmit={(values, action) => {
             action.resetForm();
-            // console.log(values);
+            console.log(values);
             handleSubmit(values);
           }}>
           {props => {
@@ -56,8 +62,9 @@ export default function Login({navigation}) {
                   label="Email"
                   placeholder="Email"
                   keyboardType="email-address"
-                  returnKeyType="next"
                   secureTextEntry={false}
+                  
+             
                   value={props.values.email}
                   onChangeText={props.handleChange('email')}
                   onBlur={props.handleBlur('email')}
@@ -70,7 +77,6 @@ export default function Login({navigation}) {
                   placeholder="Password"
                   keyboardType="default"
                   secureTextEntry
-                  returnKeyType="next"
                   value={props.values.password}
                   onChangeText={props.handleChange('password')}
                   onBlur={props.handleBlur('password')}

@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unstable-nested-components */
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {Routes, routeApp} from '../routes/Routes';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {routeApp} from '../routes/Routes';
 import Intro from '../screens/Intro';
 import Login from '../screens/Login.js/Login';
 import Register from '../screens/Register/Register';
@@ -13,30 +14,28 @@ import Account from '../screens/Home/Account';
 import {GColor} from '../constants/Global';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {checkSession, getToken} from '../store/reducers/authReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ActivityIndicator} from 'react-native';
+import {resetErrorMessage} from '../redux/reducers/authReducer';
+import {AppState} from 'react-native';
 
 export default function MainNavigation() {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
   const auth = useSelector(store => store.auth);
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const dispatch = useDispatch();
-  console.log(auth.initValues);
   const TabScreen = () => {
     return (
       <Tab.Navigator
         initialRouteName={routeApp.Home.welcome}
-        screenOptions={{
+        screenOptions={({route}) => ({
           headerShown: false,
           tabBarActiveTintColor: GColor.secondary100,
           tabBarInactiveTintColor: GColor.accent300,
-          tabBarIconStyle: {},
-          // tabBarActiveBackgroundColor:'black',
           tabBarStyle: {
             backgroundColor: GColor.primary500,
           },
-        }}>
+        })}>
         <Tab.Screen
           name={routeApp.Home.welcome}
           options={{
@@ -77,30 +76,32 @@ export default function MainNavigation() {
             ),
           }}
         />
+        <Tab.Screen
+          name={routeApp.Main}
+          component={Intro}
+          options={{
+            tabBarButton: () => null,
+            headerShown: false,
+            tabBarStyle: {display: 'none'},
+          }}
+        />
       </Tab.Navigator>
     );
   };
 
-  const AuthorizeStack = () => {
+  const AuthStack = () => {
     return (
-      <Stack.Navigator initialRouteName={routeApp.Home.main}>
+      <Stack.Navigator>
         <Stack.Screen
           name={routeApp.Home.main}
           component={TabScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name={routeApp.Main}
-          component={Intro}
-          options={{
-            headerShown: false,
-          }}
-        />
       </Stack.Navigator>
     );
   };
 
-  const NonAuthorizeStack = () => {
+  const NonAuthStack = () => {
     return (
       <Stack.Navigator initialRouteName={routeApp.Main}>
         <Stack.Screen
@@ -115,7 +116,6 @@ export default function MainNavigation() {
           component={Login}
           options={{
             headerShown: false,
-            // animationEnabled: false,
           }}
         />
         <Stack.Screen
@@ -123,33 +123,32 @@ export default function MainNavigation() {
           component={Register}
           options={{
             headerShown: false,
-            // animationEnabled: false,
           }}
-        />
-
-        <Stack.Screen
-          name={routeApp.Home.main}
-          component={TabScreen}
-          options={{headerShown: false}}
         />
       </Stack.Navigator>
     );
   };
-  const [isloading, setLoading] = useState(true);
   useLayoutEffect(() => {
-    // async function checkSession() {
-    //   const token = await AsyncStorage.getItem('token');
-    //   console.log('local token', token);
-    // }
-    // checkSession();
-    dispatch(getToken());
+    dispatch(resetErrorMessage());
+
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        dispatch(resetErrorMessage());
+      }
+      if (appState.current === 'active') {
+        dispatch(resetErrorMessage());
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
-
-  console.log('token is', auth?.token);
-  console.log(!auth.token);
-  if (auth?.token === '') {
-    return null;
-  }
-
-  return !auth?.token ? <NonAuthorizeStack /> : <AuthorizeStack />;
+  return auth?.token ? <AuthStack /> : <NonAuthStack />;
 }

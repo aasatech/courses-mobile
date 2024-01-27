@@ -14,7 +14,9 @@ const config = {
   },
   resolver: {
     assetExts: assetExts.filter(ext => ext !== 'svg'),
-    sourceExts: [...sourceExts, 'svg'],
+    // assetExts: [...defaultConfig.resolver.assetExts, 'lottie'],
+
+    sourceExts: [...sourceExts, 'svg', 'jsx', 'js', 'ts'],
   },
 };
 

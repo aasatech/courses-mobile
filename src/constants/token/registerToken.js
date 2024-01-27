@@ -1,0 +1,3 @@
+const AnnoyMous ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA2Mjg5MDc2LCJleHAiOjE3MDY0NjE4NzZ9.T7qkd_I5u56zYyNdYaRnSp_ZuK0kppQQqyeusg4-eRc'
+
+export default AnnoyMous;

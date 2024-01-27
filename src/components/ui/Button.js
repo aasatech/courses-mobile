@@ -12,7 +12,12 @@ export default function Button({
     <TouchableOpacity
       {...props}
       activeOpacity={0.8}
-      style={styles.buttonContainer}
+      style={[
+        styles.buttonContainer,
+        {
+          backgroundColor: bgColor,
+        },
+      ]}
       onPress={onPress}>
       <View>
         <Text style={styles.textLabel}>{label}</Text>
@@ -31,5 +36,6 @@ const styles = StyleSheet.create({
     backgroundColor: GColor.primary500,
     borderRadius: 10,
     paddingVertical: 14,
+    paddingHorizontal:10
   },
 });

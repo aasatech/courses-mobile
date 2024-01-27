@@ -18,7 +18,6 @@ export default function Input({
   const [isShow, setShow] = useState(props?.secureTextEntry);
   const textRef = useRef(null);
 
-  console.log(props.id);
   return (
     <View>
       <Pressable style={[styles.inputContainer]}>

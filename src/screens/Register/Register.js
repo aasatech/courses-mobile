@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Layout from '../../components/ui/Layout';
 import AppLogo from '../../components/AppLogo';
 import HeadLine from '../../components/ui/HeadLine';
@@ -9,9 +16,15 @@ import {GColor} from '../../constants/Global';
 import {Routes, routeApp} from '../../routes/Routes';
 import {Field, Form, Formik} from 'formik';
 import {SignUpSchema} from '../../schemas';
-import {useDispatch} from 'react-redux';
-import {signup} from '../../store/reducers/authReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  authorizingUser,
+  resetErrorMessage,
+} from '../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RegisterUser} from '../../actions/auth/Authentication';
+import ErrorMessage from '../../components/ui/ErrorMessage';
+import {persistance} from '../../redux/centralStore';
 
 export default function Register({navigation}) {
   const [form, setForm] = useState({
@@ -20,23 +33,46 @@ export default function Register({navigation}) {
     password: '',
     comfirmpassword: '',
   });
+  const [authState, setAuthState] = useState({
+    isLoading: false,
+    isError: false,
+    errorMessage: '',
+  });
+  const auth = useSelector(store => store.auth);
   const dispatch = useDispatch();
-  const handleSubmit = values => {
+  const handleSubmit = async values => {
     if (values) {
-      navigation.reset({
-        index: 0,
-        routes: [{name: routeApp.Home.main}],
-      });
-      dispatch(signup(values));
-
-      AsyncStorage.setItem('token', values.email).then(() => {});
+      try {
+        setAuthState(pre => {
+          return {
+            ...pre,
+            isLoading: true,
+          };
+        });
+        await dispatch(authorizingUser(values, true));
+      } catch (error) {
+ 
+        setAuthState(pre => {
+          return {
+            ...pre,
+            isError: true,
+            errorMessage: error.message,
+          };
+        });
+      } finally {
+        setAuthState(pre => {
+          return {
+            ...pre,
+            isLoading: false,
+          };
+        });
+      }
     }
-
-    // alert(JSON.stringify(values, null, 2));
   };
+
   return (
     <Layout>
-      <View style={styles.outerContainer}>
+      <ScrollView style={{}} showsVerticalScrollIndicator={false}>
         <View style={styles.imgContainer}>
           <AppLogo />
         </View>
@@ -52,9 +88,8 @@ export default function Register({navigation}) {
           initialValues={form}
           validationSchema={SignUpSchema}
           onSubmit={(values, action) => {
-            action.resetForm();
-            console.log(values);
             handleSubmit(values);
+            // action.resetForm();
           }}>
           {props => {
             return (
@@ -104,14 +139,27 @@ export default function Register({navigation}) {
                   keyboardType="default"
                   secureTextEntry
                   returnKeyType="next"
-                  value={props.values.cfpassword}
+                  value={props.values.comfirmpassword}
                   onChangeText={props.handleChange('comfirmpassword')}
                   onBlur={props.handleBlur('comfirmpassword')}
                   component={Input}
                 />
 
+                {authState?.isError && (
+                  <View style={{marginVertical: 10}}>
+                    <ErrorMessage placeholder={authState?.errorMessage} />
+                  </View>
+                )}
                 <View style={styles.buttonContainer}>
-                  <ButtonApp onPress={props.handleSubmit} label={'Sign Up'} />
+                  {authState?.isLoading ? (
+                    <ActivityIndicator size={50} color={GColor.primary500} />
+                  ) : (
+                    <ButtonApp
+                      onPress={props.handleSubmit}
+                      bgColor={GColor.primary500}
+                      label={'Sign Up'}
+                    />
+                  )}
                 </View>
               </>
             );
@@ -120,11 +168,15 @@ export default function Register({navigation}) {
 
         <View style={{alignItems: 'center'}}>
           <HeadLine label="Already have an account?" color={GColor.accent300} />
-          <Pressable onPress={() => navigation.navigate(routeApp.Login)}>
+          <Pressable
+            onPress={() => {
+              navigation.replace(routeApp.Login);
+              dispatch(resetErrorMessage());
+            }}>
             <HeadLine label="Login Here" color={GColor.primary500} />
           </Pressable>
         </View>
-      </View>
+      </ScrollView>
     </Layout>
   );
 }

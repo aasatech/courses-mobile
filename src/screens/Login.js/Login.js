@@ -1,37 +1,78 @@
-import React, {useRef, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import ErrorMessage from '../../components/ui/ErrorMessage';
 import Layout from '../../components/ui/Layout';
 import AppLogo from '../../components/AppLogo';
 import HeadLine from '../../components/ui/HeadLine';
 import {GColor} from '../../constants/Global';
 import ButtonApp from '../../components/ui/Button';
-import {Routes, routeApp} from '../../routes/Routes';
+import {routeApp} from '../../routes/Routes';
 import Input from '../../components/Input';
-import {TextInput} from 'react-native-gesture-handler';
-import {ErrorMessage, Field, Formik} from 'formik';
+import {Field, Formik} from 'formik';
 import {LoginSchema} from '../../schemas';
-import {useDispatch} from 'react-redux';
-import {login} from '../../store/reducers/authReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  authorizingUser,
+  resetErrorMessage,
+} from '../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SocialAuth from '../../components/login/SocialAuth';
+import {persistance} from '../../redux/centralStore';
 
 export default function Login({navigation}) {
   const [form, setForm] = useState({
-    email: '',
-    password: '',
+    email: 'testxx@gmail.com',
+    password: '121212121',
   });
-  const txtPassword = useRef(null);
   const dispatch = useDispatch();
+  const auth = useSelector(store => store.auth);
+  const [authState, setAuthState] = useState({
+    isLoading: false,
+    isError: false,
+    errorMessage: '',
+  });
+
   const handleSubmit = async values => {
     if (values) {
-      dispatch(login(values));
-
-      navigation.reset({
-        index: 0,
-        routes: [{name: routeApp.Home.main}],
-      });
-      await AsyncStorage.setItem('token', values.email);
+      try {
+        setAuthState(pre => {
+          return {
+            ...pre,
+            isLoading: true,
+          };
+        });
+        await dispatch(authorizingUser(values, false));
+      } catch (error) {
+        setAuthState(pre => {
+          return {
+            ...pre,
+            isError: true,
+            errorMessage: error.message,
+          };
+        });
+      } finally {
+        setAuthState(pre => {
+          return {
+            ...pre,
+            isLoading: false,
+          };
+        });
+      }
     }
   };
+  if (auth.token) {
+    navigation.reset({
+      index: 0,
+      routes: [{name: routeApp.Home.main}],
+    });
+  }
+
   return (
     <Layout>
       <View style={styles.outerContainer}>
@@ -48,11 +89,11 @@ export default function Login({navigation}) {
         </View>
         <Formik
           initialValues={form}
+          // enableReinitialize={false}
           validationSchema={LoginSchema}
           onSubmit={(values, action) => {
-            action.resetForm();
-            console.log(values);
             handleSubmit(values);
+            // action.resetForm();
           }}>
           {props => {
             return (
@@ -63,8 +104,6 @@ export default function Login({navigation}) {
                   placeholder="Email"
                   keyboardType="email-address"
                   secureTextEntry={false}
-                  
-             
                   value={props.values.email}
                   onChangeText={props.handleChange('email')}
                   onBlur={props.handleBlur('email')}
@@ -83,8 +122,22 @@ export default function Login({navigation}) {
                   component={Input}
                 />
 
+                {authState?.isError && (
+                  <View style={{marginVertical: 10}}>
+                    <ErrorMessage placeholder={authState?.errorMessage} />
+                  </View>
+                )}
+
                 <View style={styles.buttonContainer}>
-                  <ButtonApp onPress={props.handleSubmit} label={'Login'} />
+                  {authState.isLoading ? (
+                    <ActivityIndicator size={50} color={GColor.primary500} />
+                  ) : (
+                    <ButtonApp
+                      onPress={props.handleSubmit}
+                      bgColor={GColor.primary500}
+                      label={'Login'}
+                    />
+                  )}
                 </View>
               </View>
             );
@@ -93,10 +146,15 @@ export default function Login({navigation}) {
 
         <View style={{alignItems: 'center'}}>
           <HeadLine label="Don't have an account? " color={GColor.accent300} />
-          <Pressable onPress={() => navigation.navigate(routeApp.Register)}>
+          <Pressable
+            onPress={() => {
+              navigation.replace(routeApp.Register);
+            }}>
             <HeadLine label="Sign Up" color={GColor.primary500} />
           </Pressable>
         </View>
+
+        <SocialAuth />
       </View>
     </Layout>
   );

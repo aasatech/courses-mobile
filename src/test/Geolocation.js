@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Button from '../components/ui/Button';
 import Geolocation from '@react-native-community/geolocation';
-import {GColor} from '../constants/Global';
+import {GColor} from '../constants/Theme/Global';
 import HeadLine from '../components/ui/HeadLine';
 import Layout from '../components/ui/Layout';
 export default function GeoLocate({navigation}) {

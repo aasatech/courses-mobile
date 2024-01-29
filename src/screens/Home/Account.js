@@ -3,7 +3,7 @@ import Layout from '../../components/ui/Layout';
 import {Text, View} from 'react-native';
 import Button from '../../components/ui/Button';
 import {routeApp} from '../../routes/Routes';
-import {GColor} from '../../constants/Global';
+import {GColor} from '../../constants/Theme/Global';
 import {useDispatch} from 'react-redux';
 import {logoutAuth, resetState} from '../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,10 +13,10 @@ export default function Account({navigation}) {
   async function logOut() {
 
     dispatch(resetState());
-    navigation.reset({
-      index: 0,
-      routes: [{name: routeApp.Main}],
-    });
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{name: routeApp.Main}],
+    // });
   }
   return (
     <Layout>

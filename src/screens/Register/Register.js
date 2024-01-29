@@ -12,7 +12,7 @@ import AppLogo from '../../components/AppLogo';
 import HeadLine from '../../components/ui/HeadLine';
 import Input from '../../components/Input';
 import ButtonApp from '../../components/ui/Button';
-import {GColor} from '../../constants/Global';
+import {GColor} from '../../constants/Theme/Global';
 import {Routes, routeApp} from '../../routes/Routes';
 import {Field, Form, Formik} from 'formik';
 import {SignUpSchema} from '../../schemas';

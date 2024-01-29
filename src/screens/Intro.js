@@ -10,15 +10,16 @@ import {SvgXml} from 'react-native-svg';
 import MyLogo from '../assets/svg/undraw_undraw_undraw_undraw_undraw_calling_mcgf_gyrw_2jtb_-1-_eb38_-1-_d1yq (1).svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {GColor} from '../constants/Global';
+import {GColor} from '../constants/Theme/Global';
 import {resetErrorMessage, resetState} from '../redux/reducers/authReducer';
+import { resetCourse } from '../redux/reducers/courseReducer';
 export default function Intro({navigation, route}) {
   const auth = useSelector(store => store.auth);
+  const course = useSelector(store => store.course);
   const dispatch = useDispatch();
 
-
-
-  // dispatch(resetState());
+  // dispatch(resetCourse());
+  console.log('Token',course);
   return (
     <Layout>
       <View style={styles.imgContainer}>

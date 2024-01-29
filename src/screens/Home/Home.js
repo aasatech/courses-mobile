@@ -1,9 +1,7 @@
 import React, {useEffect} from 'react';
 import Layout from '../../components/ui/Layout';
 import {Text} from 'react-native';
-import {GColor} from '../../constants/Global';
-import {useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {GColor} from '../../constants/Theme/Global';
 
 export default function Home() {
  

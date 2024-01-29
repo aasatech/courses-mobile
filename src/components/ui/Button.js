@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {GColor} from '../../constants/Global';
+import {GColor} from '../../constants/Theme/Global';
 
 export default function Button({
   label = 'Press Me',

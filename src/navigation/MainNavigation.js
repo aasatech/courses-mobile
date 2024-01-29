@@ -11,12 +11,12 @@ import Home from '../screens/Home/Home';
 import Courses from '../screens/Home/Courses';
 import Contact from '../screens/Home/Contact';
 import Account from '../screens/Home/Account';
-import {GColor} from '../constants/Global';
+import {GColor} from '../constants/Theme/Global';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {resetErrorMessage} from '../redux/reducers/authReducer';
+import {logoutUser, resetErrorMessage} from '../redux/reducers/authReducer';
 import {AppState} from 'react-native';
-
+import {storeWithoutPersist} from '../redux/store/storeNoPersist';
 export default function MainNavigation() {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -35,6 +35,7 @@ export default function MainNavigation() {
           tabBarStyle: {
             backgroundColor: GColor.primary500,
           },
+          headerTitleAlign: 'center',
         })}>
         <Tab.Screen
           name={routeApp.Home.welcome}
@@ -128,27 +129,9 @@ export default function MainNavigation() {
       </Stack.Navigator>
     );
   };
-  useLayoutEffect(() => {
-    // dispatch(resetErrorMessage());
 
-    // const subscription = AppState.addEventListener('change', nextAppState => {
-    //   if (
-    //     appState.current.match(/inactive|background/) &&
-    //     nextAppState === 'active'
-    //   ) {
-    //     dispatch(resetErrorMessage());
-    //   }
-    //   if (appState.current === 'active') {
-    //     dispatch(resetErrorMessage());
-    //   }
+  // dispatch(logoutUser());
 
-    //   appState.current = nextAppState;
-    //   setAppStateVisible(appState.current);
-    // });
 
-    // return () => {
-    //   subscription.remove();
-    // };
-  }, []);
   return auth?.token ? <AuthStack /> : <NonAuthStack />;
 }

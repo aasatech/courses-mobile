@@ -32,15 +32,21 @@ const authReducer = (state = initValues, action) => {
       return {
         ...state,
       };
+    case ACTION_TYPES.reset:
+      return initValues;
     case ACTION_TYPES.errorToggle:
       return {
         ...state,
       };
     default:
-      return initValues;
+      return state;
   }
 };
-
+export const resetState = params => {
+  return {
+    type: ACTION_TYPES.reset,
+  };
+};
 export const loginUser = params => {
   return {
     type: ACTION_TYPES.login,
@@ -89,21 +95,4 @@ export const authorizingLogin = (params, isRegister = false) => {
   };
 };
 
-export const checkSession = params => {
-  return {
-    type: ACTION_TYPES.checkSession,
-    payload: {params},
-  };
-};
-
-export const resetState = params => {
-  return {
-    type: ACTION_TYPES.reset,
-  };
-};
-export const resetErrorMessage = params => {
-  return {
-    type: ACTION_TYPES.clearMessageError,
-  };
-};
 export default authReducer;

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Layout from '../components/ui/Layout';
 import {View, Text, Button, Alert, Platform} from 'react-native';
 import {Linking} from 'react-native';
-import {GColor} from '../constants/Global';
+import {GColor} from '../constants/Theme/Global';
 import Share from 'react-native-share';
 import {Link} from '@react-navigation/native';
 import file64 from '../assets/base64/file64';

@@ -6,5 +6,10 @@ const ACTION_TYPES = {
   loadingToggle: '/loading',
   errorToggle: '/error',
   clearMessageError: '/error/reset',
+  COURSE_DETAIL: '/course/detail',
+  ALL_COURSES: '/courses',
+  TAG: '/course/tag',
+  CATEGORIES: '/course/categories',
+  FILTER_COURSES: '/course/tags/categories',
 };
 export default ACTION_TYPES;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../../components/ui/Layout';
 import {Text} from 'react-native';
-import {GColor} from '../../constants/Global';
+import {GColor} from '../../constants/Theme/Global';
 
 export default function Contact() {
   return (

@@ -3,7 +3,7 @@ import React, {useRef, useState} from 'react';
 
 import HeadLine from './ui/HeadLine';
 import {Text, StyleSheet, TextInput, View, Pressable} from 'react-native';
-import {GColor} from '../constants/Global';
+import {GColor} from '../constants/Theme/Global';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ErrorMessage} from 'formik';

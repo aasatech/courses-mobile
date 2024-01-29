@@ -1,8 +1,12 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {GColor} from '../../constants/Global';
+import {GColor} from '../../constants/Theme/Global';
 
-export default function HeadLine({label = 'Do you like it', size, color}) {
+export default function HeadLine({
+  label = 'Do you like it',
+  size,
+  color = 'black',
+}) {
   const getFontSize = () => {
     switch (size) {
       case 'sm':
@@ -26,7 +30,7 @@ export default function HeadLine({label = 'Do you like it', size, color}) {
 const styles = StyleSheet.create({
   titlesm: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: '400',
     color: GColor.accent300,
   },
 
@@ -42,7 +46,7 @@ const styles = StyleSheet.create({
   },
   titleThin: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '400',
     color: GColor.accent300,
   },
 });

@@ -10,7 +10,7 @@ import ErrorMessage from '../../components/ui/ErrorMessage';
 import Layout from '../../components/ui/Layout';
 import AppLogo from '../../components/AppLogo';
 import HeadLine from '../../components/ui/HeadLine';
-import {GColor} from '../../constants/Global';
+import {GColor} from '../../constants/Theme/Global';
 import ButtonApp from '../../components/ui/Button';
 import {routeApp} from '../../routes/Routes';
 import Input from '../../components/Input';
@@ -28,7 +28,7 @@ import {persistance} from '../../redux/centralStore';
 
 export default function Login({navigation}) {
   const [form, setForm] = useState({
-    email: 'Nightpp19@gmail.com',
+    email: 'Nightpp29@gmail.com',
     password: 'Panhavorn',
   });
   const dispatch = useDispatch();
@@ -67,12 +67,6 @@ export default function Login({navigation}) {
       }
     }
   };
-  if (auth.token) {
-    navigation.reset({
-      index: 0,
-      routes: [{name: routeApp.Home.main}],
-    });
-  }
 
   return (
     <Layout>

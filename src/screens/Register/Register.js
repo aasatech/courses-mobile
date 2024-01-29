@@ -28,10 +28,10 @@ import {persistance} from '../../redux/centralStore';
 
 export default function Register({navigation}) {
   const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
-    comfirmpassword: '',
+    username: 'SivSovanpanhavorn',
+    email: 'Nightpp29@gmail.com',
+    password: 'Panhavorn',
+    comfirmpassword: 'Panhavorn',
   });
   const [authState, setAuthState] = useState({
     isLoading: false,
@@ -49,9 +49,8 @@ export default function Register({navigation}) {
             isLoading: true,
           };
         });
-        await dispatch(authorizingUser(values, true));
+        await dispatch(authorizingUser(values));
       } catch (error) {
- 
         setAuthState(pre => {
           return {
             ...pre,

@@ -2,15 +2,18 @@ import {Api} from '../../constants/Baseurl';
 
 export const RegisterUser = async params => {
   try {
+    console.log('Register User: ', params);
     const response = await Api.post('/auth/register', {
       name: params.username,
       username: params.username,
-      email: params.email,
+      email: params?.email,
       password: params.password,
       password_confirmation: params.comfirmpassword,
     });
 
-    if (response.status <= 200) {
+    console.log('data', response?.status);
+
+    if (response?.data) {
       const loginResponse = await SignInUser({
         email: params.email,
         password: params.password,
@@ -18,6 +21,7 @@ export const RegisterUser = async params => {
       return loginResponse ?? '';
     }
   } catch (error) {
+    console.log(error);
     return {
       error: error.response.data?.errors.email[0].msg,
     };

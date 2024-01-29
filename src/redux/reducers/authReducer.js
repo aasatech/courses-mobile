@@ -14,25 +14,12 @@ const authReducer = (state = initValues, action) => {
       return {
         ...state,
         token: action.payload,
-        isError: {
-          errorMessage: '',
-          error: false,
-          errorLogin: '',
-          errorRegister: '',
-        },
       };
 
     case ACTION_TYPES.signUp:
       return {
         ...state,
         token: action.payload,
-        isLoading: false,
-        isError: {
-          errorMessage: '',
-          error: false,
-          errorLogin: '',
-          errorRegister: '',
-        },
       };
     case ACTION_TYPES.checkSession:
       return state;
@@ -44,20 +31,10 @@ const authReducer = (state = initValues, action) => {
     case ACTION_TYPES.clearMessageError:
       return {
         ...state,
-        isError: {
-          errorMessage: '',
-          error: false,
-          errorLogin: '',
-          errorRegister: '',
-        },
       };
     case ACTION_TYPES.errorToggle:
       return {
         ...state,
-        isError: {
-          error: true,
-          errorMessage: action.payload,
-        },
       };
     default:
       return initValues;
@@ -76,33 +53,36 @@ export const signUpUser = params => {
     payload: params,
   };
 };
-export const authorizingUser = (params, isRegister = false) => {
+export const authorizingUser = params => {
   return async function (dispatch, state) {
     try {
-      let data;
+      const data = await RegisterUser(params);
 
-      if (isRegister) {
-        data = await RegisterUser(params);
-
-        if (data?.error) {
-          throw new Error(data.error);
-        }
-        dispatch({
-          type: ACTION_TYPES.signUp,
-          payload: data.token,
-        });
-      } else {
-        data = await SignInUser(params);
-
-        if (data?.error) {
-          throw new Error(data.error);
-        }
-
-        dispatch({
-          type: ACTION_TYPES.login,
-          payload: data?.token,
-        });
+      if (data?.error) {
+        throw new Error(data.error);
       }
+      dispatch({
+        type: ACTION_TYPES.signUp,
+        payload: data.token,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const authorizingLogin = (params, isRegister = false) => {
+  return async function (dispatch, state) {
+    try {
+      const data = await SignInUser(params);
+
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+      dispatch({
+        type: ACTION_TYPES.login,
+        payload: data?.token,
+      });
     } catch (error) {
       throw new Error(error);
     }
@@ -113,18 +93,6 @@ export const checkSession = params => {
   return {
     type: ACTION_TYPES.checkSession,
     payload: {params},
-  };
-};
-export const loadingActionToggle = params => {
-  return {
-    type: ACTION_TYPES.loadingToggle,
-    payload: params,
-  };
-};
-export const errorActionToggle = params => {
-  return {
-    type: ACTION_TYPES.errorToggle,
-    payload: params,
   };
 };
 

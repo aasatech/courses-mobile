@@ -18,6 +18,7 @@ import {Field, Formik} from 'formik';
 import {LoginSchema} from '../../schemas';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  authorizingLogin,
   authorizingUser,
   resetErrorMessage,
 } from '../../redux/reducers/authReducer';
@@ -27,8 +28,8 @@ import {persistance} from '../../redux/centralStore';
 
 export default function Login({navigation}) {
   const [form, setForm] = useState({
-    email: 'testxx@gmail.com',
-    password: '121212121',
+    email: 'Nightpp19@gmail.com',
+    password: 'Panhavorn',
   });
   const dispatch = useDispatch();
   const auth = useSelector(store => store.auth);
@@ -47,7 +48,7 @@ export default function Login({navigation}) {
             isLoading: true,
           };
         });
-        await dispatch(authorizingUser(values, false));
+        await dispatch(authorizingLogin(values));
       } catch (error) {
         setAuthState(pre => {
           return {

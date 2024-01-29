@@ -6,6 +6,5 @@ export const Api = axios.create({
   baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${RegisterToken}`,
   },
 });

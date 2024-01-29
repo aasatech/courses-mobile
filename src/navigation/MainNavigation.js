@@ -129,26 +129,26 @@ export default function MainNavigation() {
     );
   };
   useLayoutEffect(() => {
-    dispatch(resetErrorMessage());
+    // dispatch(resetErrorMessage());
 
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        dispatch(resetErrorMessage());
-      }
-      if (appState.current === 'active') {
-        dispatch(resetErrorMessage());
-      }
+    // const subscription = AppState.addEventListener('change', nextAppState => {
+    //   if (
+    //     appState.current.match(/inactive|background/) &&
+    //     nextAppState === 'active'
+    //   ) {
+    //     dispatch(resetErrorMessage());
+    //   }
+    //   if (appState.current === 'active') {
+    //     dispatch(resetErrorMessage());
+    //   }
 
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
-    });
+    //   appState.current = nextAppState;
+    //   setAppStateVisible(appState.current);
+    // });
 
-    return () => {
-      subscription.remove();
-    };
+    // return () => {
+    //   subscription.remove();
+    // };
   }, []);
   return auth?.token ? <AuthStack /> : <NonAuthStack />;
 }

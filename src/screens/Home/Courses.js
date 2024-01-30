@@ -114,11 +114,7 @@ export default function Courses({navigation}) {
       return;
     }
 
- 
     fetchCourse();
-    return () => {
-      console.log('unmounting');
-    };
   }, [selectCategories, selectTags]);
 
   const renderItem = item => {

@@ -3,19 +3,9 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {GColor} from '../../constants/Theme/Global';
 import HeadLine from '../ui/HeadLine';
 import BadgeCourse from './BadgeCourse';
-
+import dayjs from 'dayjs'
 export default function CourseItem({data, layout = 'flex'}) {
-  function getFullDate(created_at) {
-    const date = new Date(created_at);
-    const fulDate =
-      date.getDate() +
-      '-' +
-      (date.getUTCMonth() + 1) +
-      '-' +
-      date.getUTCFullYear();
 
-    return fulDate;
-  }
   return (
     <View
       style={[styles.outerContainer, layout === 'card' && styles.outerCard]}>
@@ -49,7 +39,7 @@ export default function CourseItem({data, layout = 'flex'}) {
         <View style={styles.courseState}>
           <BadgeCourse
             iconName="update"
-            text={getFullDate(data?.created_at)}
+            text={dayjs().millisecond(data?.created_at).format('DD-MM-YYYY')}
             iconColor={GColor.primary500}
           />
           <BadgeCourse

@@ -82,6 +82,7 @@ export default function MainNavigation() {
           component={Intro}
           options={{
             tabBarButton: () => null,
+
             headerShown: false,
             tabBarStyle: {display: 'none'},
           }}
@@ -131,7 +132,6 @@ export default function MainNavigation() {
   };
 
   // dispatch(logoutUser());
-
 
   return auth?.token ? <AuthStack /> : <NonAuthStack />;
 }

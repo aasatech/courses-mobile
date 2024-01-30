@@ -11,5 +11,6 @@ const ACTION_TYPES = {
   TAG: '/course/tag',
   CATEGORIES: '/course/categories',
   FILTER_COURSES: '/course/tags/categories',
+  resetCourses: '/reset/courses',
 };
 export default ACTION_TYPES;

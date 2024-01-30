@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import ACTION_TYPES from '../actions/Authentication/type';
 import {RegisterUser, SignInUser} from '../../actions/auth/Authentication';
 import {FetchAllCourses} from '../../actions/courses/Course';
-import {fetchTag} from '../../actions/courses/Tag';
+import {fetchTag, fetchTags} from '../../actions/courses/Tag';
 import {fetchCategory} from '../../actions/courses/Category';
 
 const initValues = {
@@ -22,7 +22,7 @@ export const courseReducer = (state = initValues, action) => {
       };
     case 'detail':
       return action.payload;
-    case ACTION_TYPES.reset:
+    case ACTION_TYPES.resetCourses:
       return initValues;
     case ACTION_TYPES.FILTER_COURSES:
       return {
@@ -33,6 +33,11 @@ export const courseReducer = (state = initValues, action) => {
       return {
         ...state,
         categories: action.payload,
+      };
+    case ACTION_TYPES.TAG:
+      return {
+        ...state,
+        tags: action.payload,
       };
     default:
       return state;
@@ -67,6 +72,20 @@ export const fetchCourseCategories = params => {
     }
   };
 };
+export const fetchCourseTag = params => {
+  return async function (dispatch) {
+    try {
+      const data = await fetchTags();
+
+      dispatch({
+        type: ACTION_TYPES.TAG,
+        payload: data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
 export const filterCourses = (
   params,
   isFilter,
@@ -93,6 +112,6 @@ export const filterCourses = (
 };
 export const resetCourse = () => {
   return {
-    type: ACTION_TYPES.reset,
+    type: ACTION_TYPES.resetCourses,
   };
 };

@@ -1,8 +1,8 @@
 import {Api} from '../../constants/Baseurl';
 
-export const fetchTag = async params => {
+export const fetchTags = async params => {
   try {
-    const url = `/categories`;
+    const url = `/tags`;
     const response = await Api.get(url);
 
     return response?.data ?? [];

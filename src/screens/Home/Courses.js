@@ -18,20 +18,25 @@ import {
   fetchCourseTag,
   fetchCourses,
   filterCourses,
+  resetCourse,
 } from '../../redux/reducers/courseReducer';
 import {resetState} from '../../redux/reducers/authReducer';
 import SkeletonUI from '../../components/ui/Skeletoneffect';
 import TabList from '../../components/course/TabList';
 import {fetchCategory} from '../../actions/courses/Category';
+import WrapperComponent from '../../components/course/ModalPopUp';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import TopSkeletonBar from '../../components/ui/TopSkeletonBar';
 
 export default function Courses({navigation}) {
+  const courses = useSelector(store => store?.course);
   const [layout, setLayout] = useState('flex');
   const [isLoading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-
-  const courses = useSelector(store => store?.course);
   const [selectCategories, setSelectCategories] = useState([]);
+  const [selectTags, setSelectTags] = useState([]);
   const dispatch = useDispatch();
+
   const handleLayoutChange = () => {
     setLayout(pre => {
       if (pre === 'card') {
@@ -47,6 +52,7 @@ export default function Courses({navigation}) {
       headerStyle: {
         backgroundColor: GColor.primary400,
       },
+      presentation: 'modal',
       headerLeft: () => (
         <TouchableOpacity
           style={{marginHorizontal: 20}}
@@ -67,74 +73,92 @@ export default function Courses({navigation}) {
   const fetchCourse = async () => {
     try {
       setLoading(true);
-      const course = await dispatch(fetchCourses());
-      const categories = await dispatch(fetchCourseCategories());
+      await dispatch(fetchCourses());
+      await dispatch(fetchCourseCategories());
+      await dispatch(fetchCourseTag());
     } catch (error) {
     } finally {
       setLoading(false);
     }
   };
   const onSelectCategories = id => {
-    console.log(id);
+    if (id === null) {
+      setSelectCategories([]);
+      setSelectTags([]);
+      return;
+    }
     if (selectCategories.includes(id)) {
       setSelectCategories(pre => {
         return pre.filter(pre => pre !== id);
       });
       return;
     }
+
     setSelectCategories(pre => pre.concat(id));
   };
-  useEffect(() => {
-    if (selectCategories.length > 0) {
-      dispatch(filterCourses(null, true, selectCategories, []));
+
+  const handleSelectTag = tagid => {
+    console.log(tagid);
+    if (selectTags.includes(tagid)) {
+      setSelectTags(pre => {
+        return pre.filter(pre => pre !== tagid);
+      });
       return;
     }
+    setSelectTags(pre => pre.concat(tagid));
+  };
+
+  useEffect(() => {
+    if (selectCategories.length > 0 || selectTags.length > 0) {
+      dispatch(filterCourses(null, true, selectCategories, selectTags));
+      return;
+    }
+
+ 
     fetchCourse();
-  }, [selectCategories]);
+    return () => {
+      console.log('unmounting');
+    };
+  }, [selectCategories, selectTags]);
 
   const renderItem = item => {
     return <CourseItem data={item?.item} layout={layout} />;
   };
 
-  console.log(selectCategories);
-  console.log(courses?.courses?.length);
   return (
     <Layout>
-      {isLoading &&
-        Array.from({length: 10}, (item, index) => <SkeletonUI key={index} />)}
+      <WrapperComponent
+        setSelectedTag={handleSelectTag}
+        selectedTag={selectTags}
+        setModalVisible={setModalVisible}
+        visible={isModalVisible}
+      />
 
-      <View style={{flex: 1}}>
-        <Text>I am the modal content!</Text>
-      </View>
+      {isLoading && (
+        <>
+          <View style={{marginBottom: 10}}>
+            <TopSkeletonBar />
+          </View>
 
-      <View
-        style={{
-          marginVertical: 10,
-        }}>
+          {Array.from({length: 10}, (item, index) => (
+            <SkeletonUI key={index} />
+          ))}
+        </>
+      )}
+
+      <View style={{marginBottom: 20}}>
         <TabList
           selectCategories={selectCategories}
           onSelectCategories={onSelectCategories}
         />
       </View>
-      {/* <Button title="Show modal" onPress={() => setModalVisible(pre => !pre)} /> */}
 
       <FlatList
-        // ListHeaderComponent={<TabList />}
         data={courses?.courses}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         keyExtractor={item => item?.id}
       />
-      {/* <Modal isVisible={isModalVisible}>
-        <View style={{}}>
-          <Text>Hello!</Text>
-
-          <Button
-            title="Show modal"
-            onPress={() => setModalVisible(pre => !pre)}
-          />
-        </View>
-      </Modal> */}
     </Layout>
   );
 }

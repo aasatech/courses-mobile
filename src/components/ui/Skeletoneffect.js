@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
@@ -10,6 +11,7 @@ import {Image} from 'react-native-svg';
 const SkeletonUI = ({layout}) => {
   return (
     <SkeletonPlaceholder borderRadius={4} backgroundColor={GColor.primary350}>
+  
       <View
         style={{
           width: '100%',

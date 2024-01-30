@@ -4,7 +4,8 @@ import {GColor} from '../../constants/Theme/Global';
 
 export default function TabButton({
   id,
-  bgColor = GColor.primary500,
+  txtColor = 'grey',
+  bgColor = GColor.primary300,
   label = 'Software',
   onPress,
   selected = false,
@@ -12,9 +13,20 @@ export default function TabButton({
   return (
     <TouchableOpacity
       onPress={() => onPress(id)}
-      style={[styles.outerContainer, selected && styles.selected]}>
+      style={[
+        styles.outerContainer,
+        {backgroundColor: bgColor},
+        selected && styles.selected,
+      ]}>
       <View>
-        <Text style={[styles.txtColor, selected && styles.textSelected]}>
+        <Text
+          style={[
+            styles.txtColor,
+            {
+              color: txtColor,
+            },
+            selected && styles.textSelected,
+          ]}>
           {label}
         </Text>
       </View>

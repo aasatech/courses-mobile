@@ -28,8 +28,8 @@ import {persistance} from '../../redux/centralStore';
 
 export default function Login({navigation}) {
   const [form, setForm] = useState({
-    email: 'Nightpp29@gmail.com',
-    password: 'Panhavorn',
+    email: '',
+    password: '',
   });
   const dispatch = useDispatch();
   const auth = useSelector(store => store.auth);

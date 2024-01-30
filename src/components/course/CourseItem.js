@@ -32,6 +32,8 @@ export default function CourseItem({data, layout = 'flex'}) {
           resizeMode="cover"
         />
       </View>
+
+      
       <View style={styles.detailCourse}>
         <HeadLine label={data?.name} size={'lg'} color={GColor.accent300} />
         <HeadLine color={'grey'} label={data?.summary} size={'sm'} />

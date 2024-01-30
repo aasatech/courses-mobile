@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {GColor} from '../../constants/Theme/Global';
 
 export default function TabButton({
@@ -11,7 +17,7 @@ export default function TabButton({
   selected = false,
 }) {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() => onPress(id)}
       style={[
         styles.outerContainer,
@@ -30,7 +36,7 @@ export default function TabButton({
           {label}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({

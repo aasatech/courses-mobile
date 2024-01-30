@@ -22,7 +22,7 @@ export default function TabList({onSelectCategories, selectCategories}) {
         data={store?.categories}
         renderItem={item => (
           <>
-            {item.index === 0 && (
+            {/* {item.index === 0 && (
               <View style={styles.tabBar}>
                 <TabButton
                   label={'Clear All'}
@@ -31,7 +31,7 @@ export default function TabList({onSelectCategories, selectCategories}) {
                   onPress={() => onSelectCategories(null)}
                 />
               </View>
-            )}
+            )} */}
 
             <View style={styles.tabBar}>
               <TabButton

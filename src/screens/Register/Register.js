@@ -28,10 +28,10 @@ import {persistance} from '../../redux/centralStore';
 
 export default function Register({navigation}) {
   const [form, setForm] = useState({
-    username: 'SivSovanpanhavorn',
-    email: 'Nightpp29@gmail.com',
-    password: 'Panhavorn',
-    comfirmpassword: 'Panhavorn',
+    username: '',
+    email: '',
+    password: '',
+    comfirmpassword: '',
   });
   const [authState, setAuthState] = useState({
     isLoading: false,
@@ -170,7 +170,7 @@ export default function Register({navigation}) {
           <Pressable
             onPress={() => {
               navigation.replace(routeApp.Login);
-              dispatch(resetErrorMessage());
+
             }}>
             <HeadLine label="Login Here" color={GColor.primary500} />
           </Pressable>

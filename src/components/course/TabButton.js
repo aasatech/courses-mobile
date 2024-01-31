@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   Pressable,
@@ -15,14 +16,23 @@ export default function TabButton({
   label = 'Software',
   onPress,
   selected = false,
+  type = 'default',
 }) {
+  console.log(selected);
   return (
     <Pressable
       onPress={() => onPress(id)}
       style={[
         styles.outerContainer,
         {backgroundColor: bgColor},
+
         selected && styles.selected,
+        type !== 'default' && {
+          backgroundColor: 'transparent',
+          borderBottomWidth: !selected ? 0 : 2,
+          borderRadius: 0,
+          borderBottomColor: !selected ? GColor.accent300 : GColor.primary600,
+        },
       ]}>
       <View>
         <Text
@@ -32,6 +42,9 @@ export default function TabButton({
               color: txtColor,
             },
             selected && styles.textSelected,
+            type !== 'default' && {
+              color: !selected ? GColor.accent300 : GColor.primary600,
+            },
           ]}>
           {label}
         </Text>

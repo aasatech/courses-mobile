@@ -3,7 +3,6 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {GColor} from '../../constants/Theme/Global';
 import HeadLine from '../ui/HeadLine';
 import BadgeCourse from './BadgeCourse';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import dayjs from 'dayjs';
 import {
   StackActions,

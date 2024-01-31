@@ -8,9 +8,11 @@ export default function BadgeCourse({
   text = '2015',
   iconName = 'update',
   iconColor = 'black',
+  align = 'left',
 }) {
   return (
-    <View style={styles.row}>
+    <View
+      style={[styles.row, align === 'left' && {flexDirection: 'row-reverse'}]}>
       <DynamicIcon name={iconName} size={20} color={iconColor} />
       <Text style={styles.textSt}>{text}</Text>
     </View>

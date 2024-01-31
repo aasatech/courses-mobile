@@ -6,6 +6,7 @@ export default function HeadLine({
   label = 'Do you like it',
   size,
   color = 'black',
+  // lineHeight = 20,
 }) {
   const getFontSize = () => {
     switch (size) {

@@ -72,7 +72,7 @@ export default function Courses({navigation}) {
       ),
     });
   }, [layout]);
-  // onSelectCategories(null);
+
   const fetchCourse = async () => {
     try {
       setLoading(true);

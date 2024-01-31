@@ -39,7 +39,6 @@ export default function Courses({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Courses',
-
       headerShown: true,
       headerStyle: {
         backgroundColor: GColor.primary400,

@@ -11,7 +11,8 @@ export const routeApp = {
     account: 'account',
   },
   Course: {
-    init: '/course/stack',
-    detail: '/course/stack/detail',
+    course: 'contact/stack/home',
+    init: 'course/start',
+    detail: 'course/stack/detail',
   },
 };

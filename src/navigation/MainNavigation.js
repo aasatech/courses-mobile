@@ -18,6 +18,7 @@ import {logoutUser, resetErrorMessage} from '../redux/reducers/authReducer';
 import {AppState} from 'react-native';
 import {storeWithoutPersist} from '../redux/store/storeNoPersist';
 import CourseDetail from '../screens/Home/CourseDetail';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 export default function MainNavigation() {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -27,11 +28,15 @@ export default function MainNavigation() {
 
   const CourseStack = () => {
     return (
-      <Stack.Navigator
-        screenOptions={{
-          header: () => null,
-        }}>
-        <Stack.Screen name="init" component={CourseDetail} />
+      <Stack.Navigator screenOptions={{}}>
+        <Stack.Screen name={routeApp.Course.course} component={Courses} />
+        <Stack.Screen
+          name={routeApp.Course.detail}
+          component={CourseDetail}
+          options={{
+            header: () => null,
+          }}
+        />
       </Stack.Navigator>
     );
   };
@@ -39,41 +44,54 @@ export default function MainNavigation() {
   const TabScreen = () => {
     return (
       <Tab.Navigator
-        detachInactiveScreens={true}
         initialRouteName={routeApp.Home.welcome}
         // tabBar={() => null}
         screenOptions={({route}) => ({
           headerShown: false,
+          tabBarActiveBackgroundColor: GColor.primary500,
 
           tabBarActiveTintColor: GColor.secondary100,
           tabBarInactiveTintColor: GColor.accent300,
           tabBarStyle: {
             backgroundColor: GColor.primary500,
-            display: route?.name === routeApp.Course.init ? 'none' : 'block',
+
+            display: route.name === routeApp.Course.init ? 'none' : 'flex',
           },
+
           headerTitleAlign: 'center',
         })}>
         <Tab.Screen
           name={routeApp.Home.welcome}
           options={{
             title: 'Home',
+            tabBarStyle: {
+              backgroundColor: GColor.primary500,
+            },
             tabBarIcon: ({focused, color, size}) => (
               <Icon name="home-sharp" size={size} color={color} />
             ),
           }}
           component={Home}
         />
-
         <Tab.Screen
-          name={routeApp.Home.course}
-          component={Courses}
-          options={{
-            title: 'Courses',
-            tabBarIcon: ({focused, color, size}) => (
-              <Icon name="book-sharp" size={size} color={color} />
-            ),
+          name={routeApp.Course.init}
+          component={CourseStack}
+          options={({route}) => {
+            return {
+              title: 'Course',
+
+              tabBarStyle: {
+                backgroundColor: GColor.primary500,
+                display: getTabBarVisibility(route) ? 'none' : 'flex',
+              },
+
+              tabBarIcon: ({focused, color, size}) => (
+                <Icon name="book" size={size} color={color} />
+              ),
+            };
           }}
         />
+
         <Tab.Screen
           name={routeApp.Home.contact}
           component={Contact}
@@ -84,17 +102,7 @@ export default function MainNavigation() {
             ),
           }}
         />
-        <Tab.Screen
-          name={routeApp.Course.init}
-          component={CourseStack}
-          options={{
-            tabBarButton: () => null,
-            header: () => null,
-            headerTitle: '',
-            headerShown: false,
-            tabBarVisible: false, // Set tabBarVisible to false
-          }}
-        />
+
         <Tab.Screen
           name={routeApp.Home.account}
           component={Account}
@@ -159,7 +167,12 @@ export default function MainNavigation() {
     );
   };
 
-  // dispatch(logoutUser());
-
   return auth?.token ? <AuthStack /> : <NonAuthStack />;
 }
+const getTabBarVisibility = route => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+  if (routeName === routeApp.Course.detail) {
+    return true;
+  }
+  return false;
+};

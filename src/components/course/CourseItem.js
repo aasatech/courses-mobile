@@ -3,15 +3,20 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {GColor} from '../../constants/Theme/Global';
 import HeadLine from '../ui/HeadLine';
 import BadgeCourse from './BadgeCourse';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import dayjs from 'dayjs';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {
+  StackActions,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native';
 import {routeApp} from '../../routes/Routes';
 export default function CourseItem({data, layout = 'flex'}) {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(routeApp.Course.init)}
+      onPress={() => navigation.navigate(routeApp.Course.detail)}
       style={[styles.outerContainer, layout === 'card' && styles.outerCard]}>
       <View
         style={[
@@ -57,6 +62,7 @@ export default function CourseItem({data, layout = 'flex'}) {
     </TouchableOpacity>
   );
 }
+
 const styles = StyleSheet.create({
   courseState: {
     flexDirection: 'row',

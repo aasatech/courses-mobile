@@ -35,6 +35,7 @@ export default function Courses({navigation}) {
       return 'card';
     });
   };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Courses',
@@ -42,7 +43,6 @@ export default function Courses({navigation}) {
       headerShown: true,
       headerStyle: {
         backgroundColor: GColor.primary400,
-        
       },
       presentation: 'modal',
       headerLeft: () => (
@@ -50,7 +50,7 @@ export default function Courses({navigation}) {
           style={{marginHorizontal: 20}}
           onPress={handleLayoutChange}>
           <IconDisplay
-          color={'black'}
+            color={'black'}
             name={layout === 'card' ? 'list-outline' : 'grid-sharp'}
             size={22}
           />
@@ -61,13 +61,13 @@ export default function Courses({navigation}) {
           <TouchableOpacity
             style={{marginHorizontal: 0}}
             onPress={() => onSelectCategories(null)}>
-            <IconDisplay      color={'black'} name="close-circle-sharp" size={25} />
+            <IconDisplay color={'black'} name="close-circle-sharp" size={25} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={{marginHorizontal: 10}}
             onPress={() => setModalVisible(pre => !pre)}>
-            <IconDisplay     color={'black'} name="filter-sharp" size={25} />
+            <IconDisplay color={'black'} name="filter-sharp" size={25} />
           </TouchableOpacity>
         </View>
       ),
@@ -86,7 +86,6 @@ export default function Courses({navigation}) {
     }
   };
   const onSelectCategories = id => {
-    console.log(id);
     if (id === null) {
       setSelectCategories([]);
       setSelectTags([]);
@@ -98,13 +97,11 @@ export default function Courses({navigation}) {
       });
       return;
     }
-    console.log('set up');
 
     setSelectCategories(pre => pre.concat(id));
   };
 
   const handleSelectTag = tagid => {
-    console.log('Tag', tagid);
     if (selectTags.includes(tagid)) {
       setSelectTags(pre => {
         return pre.filter(pre => pre !== tagid);

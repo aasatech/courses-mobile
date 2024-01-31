@@ -10,7 +10,7 @@ export default function TabList({onSelectCategories, selectCategories}) {
 
   useEffect(() => {
     return () => {
-      console.log('run');
+ 
     };
   }, []);
 

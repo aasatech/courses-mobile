@@ -1,13 +1,17 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {GColor} from '../../constants/Theme/Global';
 import HeadLine from '../ui/HeadLine';
 import BadgeCourse from './BadgeCourse';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+import {StackActions, useNavigation} from '@react-navigation/native';
+import {routeApp} from '../../routes/Routes';
 export default function CourseItem({data, layout = 'flex'}) {
+  const navigation = useNavigation();
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => navigation.navigate(routeApp.Course.init)}
       style={[styles.outerContainer, layout === 'card' && styles.outerCard]}>
       <View
         style={[
@@ -33,7 +37,6 @@ export default function CourseItem({data, layout = 'flex'}) {
         />
       </View>
 
-      
       <View style={styles.detailCourse}>
         <HeadLine label={data?.name} size={'lg'} color={GColor.accent300} />
         <HeadLine color={'grey'} label={data?.summary} size={'sm'} />
@@ -51,7 +54,7 @@ export default function CourseItem({data, layout = 'flex'}) {
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({

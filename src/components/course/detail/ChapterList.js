@@ -1,29 +1,48 @@
-import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {
+  useDebugValue,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import ListTile from './ListTile';
 import {GColor} from '../../../constants/Theme/Global';
 import LessonSection from './LessonSection';
 import HeaderCourse from './HeaderCourse';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchSingleCourse} from '../../../redux/reducers/courseReducer';
+import {useRoute} from '@react-navigation/native';
+import {baseUrl, rootUrl} from '../../../constants/Baseurl';
 
-export default function ChapterList({onTap, tabItem}) {
-  const data = [1, 2, 3, 4, 5, 6, 7, 10];
+export default function ChapterList({onTap, tabItem, onChange}) {
+  const store = useSelector(store => store.course);
+  const courseDetail = store?.singleCourse;
 
-  function toggleChapter() {}
   return (
     <FlatList
       ListHeaderComponent={<HeaderCourse onTap={onTap} tabItem={tabItem} />}
       showsVerticalScrollIndicator={false}
-      data={data}
+      keyExtractor={item => item.id}
+      data={courseDetail?.chapters}
       renderItem={item => (
         <View style={styles.itemContainer}>
           <ListTile
             listStyle={styles.itemStyle}
-            title="Chapter 1 Intro "
-            subTitle="5 lessons"
+            title={`Chapter ${item?.index + 1} ${item.item?.name.slice(
+              0,
+              10,
+            )}... `}
+            subTitle={`${item.item?.lessons?.length} lessons`}
             description=""
             textColor={GColor.accent300}
           />
-          <LessonSection />
+          <LessonSection data={item?.item} onSelectVideo={onChange} />
         </View>
       )}
     />

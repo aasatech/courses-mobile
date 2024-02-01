@@ -111,6 +111,7 @@ export default function Courses({navigation}) {
   };
 
   useEffect(() => {
+    
     if (selectCategories.length > 0 || selectTags.length > 0) {
       dispatch(filterCourses(null, true, selectCategories, selectTags));
       return;
@@ -124,7 +125,7 @@ export default function Courses({navigation}) {
   };
 
   return (
-    <Layout>
+    <Layout >
       <WrapperComponent
         setSelectedTag={handleSelectTag}
         selectedTag={selectTags}

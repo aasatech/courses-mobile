@@ -15,7 +15,12 @@ export default function CourseItem({data, layout = 'flex'}) {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(routeApp.Course.detail)}
+      onPress={() => {
+
+        navigation.navigate(routeApp.Course.detail, {
+          id: data?.id,
+        });
+      }}
       style={[styles.outerContainer, layout === 'card' && styles.outerCard]}>
       <View
         style={[
@@ -42,7 +47,7 @@ export default function CourseItem({data, layout = 'flex'}) {
       </View>
 
       <View style={styles.detailCourse}>
-        <HeadLine label={data?.name} size={'lg'} color={GColor.accent300} />
+        <HeadLine label={data?.name} size={'md'} color={GColor.accent300} />
         <HeadLine color={'grey'} label={data?.summary} size={'sm'} />
 
         <View style={styles.courseState}>

@@ -5,15 +5,19 @@ import TabBarHorizontal from '../../ui/TabBarHorizontal';
 import HeadLine from '../../ui/HeadLine';
 import {GColor} from '../../../constants/Theme/Global';
 import ListTile from './ListTile';
+import {useSelector} from 'react-redux';
 
 export default function HeaderCourse({onTap, tabItem}) {
+  const state = useSelector(store => store.course);
+  const course = state.singleCourse;
   return (
     <View style={styles.bodyContainer}>
       <CourseHeader />
       <View style={{marginVertical: 15}}>
         <ListTile
-          title="Panhavorn"
-          description={'Mobile and Web App Developer'}
+          title={course?.user?.name}
+          description={course?.user?.email}
+          subTitle={course?.user?.role}
           textColor={GColor.primary300}
           leading={
             <Image
@@ -30,15 +34,8 @@ export default function HeaderCourse({onTap, tabItem}) {
           rowGap: 10,
         }}>
         <HeadLine label="What Will I learn?" size={'md'} />
-        <Text style={styles.descriptionText}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          ut modi nemo iste animi deleniti aspernatur debitis, deserunt unde
-          nisi. Quo accusamus numquam soluta suscipit doloribus, quasi deleniti
-          iste. Ipsum!
-        </Text>
+        <Text style={styles.descriptionText}>{course?.summary}</Text>
       </View>
-
-
     </View>
   );
 }

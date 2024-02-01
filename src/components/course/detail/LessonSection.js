@@ -1,26 +1,51 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import ListTile from './ListTile';
 import {GColor} from '../../../constants/Theme/Global';
 import DownloadIcon from 'react-native-vector-icons/Ionicons';
 import VideoPlay from 'react-native-vector-icons/Ionicons';
-export default function LessonSection() {
+import {useSelector} from 'react-redux';
+export default function LessonSection({data = [], onSelectVideo}) {
+  const lessonChapter = data?.lessons;
+
   return (
     <View>
-      <ListTile
-        listStyle={styles.itemStyle}
-        title="Introduction To Web Design"
-        subTitle="5 lessons"
-        description=""
-        textColor={GColor.accent300}
-        leading={
-          <VideoPlay
-            name="play-circle-outline"
-            size={30}
-            color={GColor.primary500}
+      <FlatList
+        data={lessonChapter}
+        showsVerticalScrollIndicator={false}
+        renderItem={item => (
+          <ListTile
+            listStyle={styles.itemStyle}
+            title={item?.item?.name}
+            subTitle={item?.item?.name}
+            description=""
+            textColor={GColor.accent300}
+            leading={
+              <TouchableOpacity
+                onPress={onSelectVideo.bind(
+                  null,
+                  item?.item?.video_url,
+                  item?.item?.image_url,
+                )}>
+                <VideoPlay
+                  name="play-circle-outline"
+                  size={30}
+                  color={GColor.primary500}
+                />
+              </TouchableOpacity>
+            }
+            trailing={
+              <DownloadIcon name="caret-down-circle-outline" size={23} />
+            }
           />
-        }
-        trailing={<DownloadIcon name="caret-down-circle-outline" size={23} />}
+        )}
       />
     </View>
   );

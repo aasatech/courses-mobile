@@ -6,6 +6,10 @@
 	<string>en</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select image/video from photos</string>
+	<key>UIAppFonts</key>
+	<array>
+	<string>MaterialIcons.ttf</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs to get your location...</string>
 	<key>NSCameraUsageDescription</key>

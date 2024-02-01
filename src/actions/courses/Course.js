@@ -27,6 +27,23 @@ export const FetchAllCourses = async (
   }
 };
 
+export const fetchCourseDetail = async params => {
+  console.log(params);
+  try {
+    const url = `/courses/${params?.id}`;
+    const response = await Api.get(url);
+
+    return response?.data ?? [];
+  } catch (error) {
+    // console.log(error);
+    // return {
+    //   error: error.response.data?.errors,
+    // };
+    throw new Error({
+      error: error.response.data?.errors,
+    });
+  }
+};
 const checkResponseStatus = status => {
   if (status === 400) {
     throw new Error('Bad Request: Client provided invalid data');

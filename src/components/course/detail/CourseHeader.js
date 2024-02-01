@@ -3,22 +3,26 @@ import {StyleSheet, View} from 'react-native';
 import HeadLine from '../../ui/HeadLine';
 import BadgeCourse from '../BadgeCourse';
 import {GColor} from '../../../constants/Theme/Global';
+import {useSelector} from 'react-redux';
+import dayjs from 'dayjs';
 
 export default function CourseHeader() {
+  const state = useSelector(store => store.course);
+  const course = state.singleCourse;
   return (
     <View style={styles.outerContainer}>
       <View
         style={{
           marginBottom: 15,
         }}>
-        <HeadLine size={'lg'} label="Mobile Development" />
+        <HeadLine size={'lg'} label={course?.name} />
       </View>
 
       <View style={styles.headerBarContainer}>
         <BadgeCourse
           align="right"
-          iconName="star"
-          text="5 stars"
+          iconName="form-select"
+          text={course?.category?.name}
           iconColor={GColor.primary500}
         />
         <BadgeCourse
@@ -33,20 +37,22 @@ export default function CourseHeader() {
         <BadgeCourse
           align="right"
           iconName="clock"
-          text="5 hours"
+          text={dayjs()
+            .millisecond(course?.created_at ?? '')
+            .format('DD-MM-YYYY')}
           iconColor={GColor.primary500}
         />
 
         <BadgeCourse
           align="right"
           iconName="view-parallel"
-          text="15 Chapters"
+          text={`${course.chapters?.length} Chapters`}
           iconColor={GColor.primary500}
         />
         <BadgeCourse
           align="right"
           iconName="view-parallel"
-          text="5 Lessons"
+          text={`${course.chapters?.length} Chapters`}
           iconColor={GColor.primary500}
         />
       </View>
@@ -55,8 +61,8 @@ export default function CourseHeader() {
 }
 const styles = StyleSheet.create({
   outerContainer: {
-    borderBottomColor:'grey',
-    borderBottomWidth:0.5,
+    borderBottomColor: 'grey',
+    borderBottomWidth: 0.5,
     // padding:10
   },
   imgView: {

@@ -2,12 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice} from '@reduxjs/toolkit';
 import ACTION_COURSE_TYPES from '../actions/Courses/type';
 import {RegisterUser, SignInUser} from '../../actions/auth/Authentication';
-import {FetchAllCourses} from '../../actions/courses/Course';
+import {FetchAllCourses, fetchCourseDetail} from '../../actions/courses/Course';
 import {fetchTag, fetchTags} from '../../actions/courses/Tag';
 import {fetchCategory} from '../../actions/courses/Category';
 
 const initValues = {
   courses: [],
+  singleCourse: '',
   tags: [],
   categories: [],
   // filterCategories:[]
@@ -15,13 +16,16 @@ const initValues = {
 
 export const courseReducer = (state = initValues, action) => {
   switch (action.type) {
-    case 'allcourse':
+    case ACTION_COURSE_TYPES.ALL_COURSES:
       return {
         ...state,
         courses: action.payload,
       };
-    case 'detail':
-      return action.payload;
+    case ACTION_COURSE_TYPES.COURSE_DETAIL:
+      return {
+        ...state,
+        singleCourse: action.payload,
+      };
     case ACTION_COURSE_TYPES.resetCourses:
       return initValues;
     case ACTION_COURSE_TYPES.FILTER_COURSES:
@@ -50,8 +54,23 @@ export const fetchCourses = params => {
       const data = await FetchAllCourses(params);
 
       dispatch({
-        type: 'allcourse',
+        type: ACTION_COURSE_TYPES.ALL_COURSES,
         payload: data?.data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const fetchSingleCourse = params => {
+  return async function (dispatch) {
+    try {
+      const data = await fetchCourseDetail(params);
+
+      dispatch({
+        type: ACTION_COURSE_TYPES.COURSE_DETAIL,
+        payload: data,
       });
     } catch (error) {
       throw new Error(error);

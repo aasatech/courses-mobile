@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/react-in-jsx-scope */
 import {StyleSheet, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
@@ -12,16 +13,78 @@ export const SkeletonCourseDetail = ({layout}) => {
           style={{
             width: '100%',
             height: 230,
-     
           }}
         />
 
-        <View
-          style={[
-            {
-              flex: 1,
-            },
-          ]}></View>
+        <View style={{flexDirection: 'row', gap: 5, marginVertical: 10}}>
+          {Array.from({length: 3}, (item, index) => (
+            <View
+              key={index}
+              style={{
+                width: 90,
+                height: 30,
+              }}></View>
+          ))}
+        </View>
+
+        <View>
+          <View
+            style={{
+              width: 190,
+              height: 40,
+            }}></View>
+
+          <View>
+            <View style={{flexDirection: 'row', gap: 5, marginVertical: 10}}>
+              {Array.from({length: 2}, (item, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: 90,
+                    height: 30,
+                  }}></View>
+              ))}
+            </View>
+            <View style={{flexDirection: 'row', gap: 5, marginVertical: 10}}>
+              {Array.from({length: 3}, (item, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: 90,
+                    height: 30,
+                  }}></View>
+              ))}
+            </View>
+
+            <View
+              style={{
+                width: '100%',
+                height: 100,
+                marginBottom: 10,
+              }}></View>
+            <View
+              style={{
+                width: 90,
+                height: 30,
+                marginBottom: 10,
+              }}></View>
+
+            <View
+              style={{
+                width: '100%',
+                height: 20,
+                marginBottom: 10,
+              }}></View>
+
+            <View
+              style={{
+                width: '100%',
+                height: 200,
+                marginBottom: 10,
+              }}></View>
+          </View>
+        </View>
+
         <View style={styles.detailCourse}></View>
       </SkeletonPlaceholder>
     </Layout>

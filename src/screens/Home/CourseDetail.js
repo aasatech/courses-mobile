@@ -173,7 +173,7 @@ export default function CourseDetail({navigation}) {
           onPress={handleToggleFullScreen}>
           <FullScreenIcon
             name={onFullScreen ? 'contract-sharp' : 'play-circle-sharp'}
-            size={25}
+            size={35}
             color="white"
           />
         </Pressable>

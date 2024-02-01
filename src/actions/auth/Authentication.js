@@ -11,7 +11,7 @@ export const RegisterUser = async params => {
       password_confirmation: params.comfirmpassword,
     });
 
-    console.log('data', response?.status);
+
 
     if (response?.data) {
       const loginResponse = await SignInUser({
@@ -21,7 +21,7 @@ export const RegisterUser = async params => {
       return loginResponse ?? '';
     }
   } catch (error) {
-    console.log(error);
+
     return {
       error: error.response.data?.errors.email[0].msg,
     };

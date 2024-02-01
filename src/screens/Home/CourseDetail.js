@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useMemo, useState} from 'react';
 import {View, Text, Image, StyleSheet, FlatList} from 'react-native';
 import Layout from '../../components/ui/Layout';
 import {useIsFocused} from '@react-navigation/native';
@@ -35,10 +35,11 @@ export default function CourseDetail({navigation}) {
       component: <RatingSection />,
     },
   ];
-  function onTap(index) {
-    console.log(index);
-    setTapIndex(index);
-  }
+  const onTap = useMemo(() => {
+    return function (index) {
+      setTapIndex(index);
+    };
+  }, []);
   return (
     <Layout space={0}>
       <Image

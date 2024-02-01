@@ -18,7 +18,7 @@ export default function TabButton({
   selected = false,
   type = 'default',
 }) {
-  console.log(selected);
+
   return (
     <Pressable
       onPress={() => onPress(id)}

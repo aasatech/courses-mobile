@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice} from '@reduxjs/toolkit';
-import ACTION_TYPES from '../actions/Authentication/type';
+import ACTION_COURSE_TYPES from '../actions/Courses/type';
 import {RegisterUser, SignInUser} from '../../actions/auth/Authentication';
 import {FetchAllCourses} from '../../actions/courses/Course';
 import {fetchTag, fetchTags} from '../../actions/courses/Tag';
@@ -22,19 +22,19 @@ export const courseReducer = (state = initValues, action) => {
       };
     case 'detail':
       return action.payload;
-    case ACTION_TYPES.resetCourses:
+    case ACTION_COURSE_TYPES.resetCourses:
       return initValues;
-    case ACTION_TYPES.FILTER_COURSES:
+    case ACTION_COURSE_TYPES.FILTER_COURSES:
       return {
         ...state,
         courses: action.payload,
       };
-    case ACTION_TYPES.CATEGORIES:
+    case ACTION_COURSE_TYPES.CATEGORIES:
       return {
         ...state,
         categories: action.payload,
       };
-    case ACTION_TYPES.TAG:
+    case ACTION_COURSE_TYPES.TAG:
       return {
         ...state,
         tags: action.payload,
@@ -64,7 +64,7 @@ export const fetchCourseCategories = params => {
       const data = await fetchCategory();
 
       dispatch({
-        type: ACTION_TYPES.CATEGORIES,
+        type: ACTION_COURSE_TYPES.CATEGORIES,
         payload: data,
       });
     } catch (error) {
@@ -78,7 +78,7 @@ export const fetchCourseTag = params => {
       const data = await fetchTags();
 
       dispatch({
-        type: ACTION_TYPES.TAG,
+        type: ACTION_COURSE_TYPES.TAG,
         payload: data,
       });
     } catch (error) {
@@ -102,7 +102,7 @@ export const filterCourses = (
       );
 
       dispatch({
-        type: ACTION_TYPES.FILTER_COURSES,
+        type: ACTION_COURSE_TYPES.FILTER_COURSES,
         payload: data?.data,
       });
     } catch (error) {
@@ -112,6 +112,6 @@ export const filterCourses = (
 };
 export const resetCourse = () => {
   return {
-    type: ACTION_TYPES.resetCourses,
+    type: ACTION_COURSE_TYPES.resetCourses,
   };
 };

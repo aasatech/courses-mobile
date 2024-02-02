@@ -1,7 +1,12 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import Layout from '../../components/ui/Layout';
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {GColor} from '../../constants/Theme/Global';
 import CourseItem from '../../components/course/CourseItem';
 import IconDisplay from 'react-native-vector-icons/Ionicons';
@@ -20,11 +25,21 @@ import TopSkeletonBar from '../../components/ui/TopSkeletonBar';
 
 export default function Courses({navigation}) {
   const courses = useSelector(store => store?.course);
+  const flatRef = useRef(null);
   const [layout, setLayout] = useState('flex');
   const [isLoading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectCategories, setSelectCategories] = useState([]);
   const [selectTags, setSelectTags] = useState([]);
+  const [reachBottom, setReachBottom] = useState(false);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    perPage: 5,
+    currentPage: 1,
+    next: 2,
+    totalPage: 0,
+    previous: 1,
+  });
   const dispatch = useDispatch();
 
   const handleLayoutChange = () => {
@@ -76,12 +91,23 @@ export default function Courses({navigation}) {
   const fetchCourse = async () => {
     try {
       setLoading(true);
-      await dispatch(fetchCourses());
+      await dispatch(fetchCourses(pagination));
       await dispatch(fetchCourseCategories());
       await dispatch(fetchCourseTag());
     } catch (error) {
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPagination = async params => {
+    try {
+      setReachBottom(true);
+      setPagination(pre => ({...pre, currentPage: pagination.currentPage + 1})),
+        await dispatch(fetchCourses(params));
+    } catch (error) {
+    } finally {
+      // setReachBottom(false);
     }
   };
   const onSelectCategories = id => {
@@ -111,21 +137,47 @@ export default function Courses({navigation}) {
   };
 
   useEffect(() => {
-    
+    handleRefreshPage();
     if (selectCategories.length > 0 || selectTags.length > 0) {
       dispatch(filterCourses(null, true, selectCategories, selectTags));
       return;
     }
 
     fetchCourse();
-  }, [selectCategories, selectTags]);
+  }, [dispatch, selectCategories, selectTags]);
 
   const renderItem = item => {
     return <CourseItem data={item?.item} layout={layout} />;
   };
 
+  const handleRefreshPage = () => {
+    flatRef.current.scrollToOffset({offset: 0, animated: true});
+    setPagination({
+      total: 0,
+      perPage: 5,
+      currentPage: 1,
+      next: 2,
+      totalPage: 0,
+      previous: 1,
+    });
+    fetchPagination({
+      currentPage: 1,
+      perPage: 5,
+    });
+  };
+  async function handleLoadmore() {
+    if (pagination.currentPage >= courses?.meta?.totalPage) {
+      setReachBottom(false);
+      return;
+    }
+    fetchPagination({
+      currentPage: pagination.currentPage + 1,
+      perPage: pagination.perPage,
+    });
+  }
+
   return (
-    <Layout >
+    <Layout>
       <WrapperComponent
         setSelectedTag={handleSelectTag}
         selectedTag={selectTags}
@@ -153,10 +205,20 @@ export default function Courses({navigation}) {
       </View>
 
       <FlatList
+        onEndReachedThreshold={0.5}
         data={courses?.courses}
+        refreshing={false}
+        ref={flatRef}
+        onRefresh={handleRefreshPage}
+        onEndReached={handleLoadmore}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
-        keyExtractor={item => item?.id}
+        keyExtractor={(item, index) => index}
+        ListFooterComponent={() =>
+          reachBottom && (
+            <ActivityIndicator size={50} color={GColor.primary600} />
+          )
+        }
       />
     </Layout>
   );

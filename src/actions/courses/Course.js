@@ -5,9 +5,12 @@ export const FetchAllCourses = async (
   isFilter = false,
   categories_id = [],
   tags_id = [],
+  pagination: '',
 ) => {
   try {
-    const url = `/courses?page=${params?.page ?? 1}&per_page=9`;
+    const url = `/courses?page=${params?.currentPage ?? 1}&per_page=${
+      params?.perPage
+    }`;
 
     const configParam = {
       params: {

@@ -5,5 +5,6 @@ const ACTION_COURSE_TYPES = {
   CATEGORIES: '/course/categories',
   FILTER_COURSES: '/course/tags/categories',
   resetCourses: '/reset/courses',
+  REFRESH:'/refresh'
 };
 export default ACTION_COURSE_TYPES;

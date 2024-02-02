@@ -9,6 +9,7 @@ import {fetchCategory} from '../../actions/courses/Category';
 const initValues = {
   courses: [],
   singleCourse: '',
+  meta: '',
   tags: [],
   categories: [],
   // filterCategories:[]
@@ -16,10 +17,18 @@ const initValues = {
 
 export const courseReducer = (state = initValues, action) => {
   switch (action.type) {
-    case ACTION_COURSE_TYPES.ALL_COURSES:
+    case ACTION_COURSE_TYPES.REFRESH:
       return {
         ...state,
-        courses: action.payload,
+        courses: action.payload?.data,
+        meta: action.payload?.meta,
+      };
+    case ACTION_COURSE_TYPES.ALL_COURSES:
+      console.log(action.payload);
+      return {
+        ...state,
+        courses: state.courses.concat(action.payload?.data),
+        meta: action.payload?.meta,
       };
     case ACTION_COURSE_TYPES.COURSE_DETAIL:
       return {
@@ -49,13 +58,27 @@ export const courseReducer = (state = initValues, action) => {
 };
 
 export const fetchCourses = params => {
+  console.log('Current Page', params);
   return async function (dispatch) {
     try {
       const data = await FetchAllCourses(params);
 
+      if (params?.currentPage === 1) {
+        dispatch({
+          type: ACTION_COURSE_TYPES.REFRESH,
+          payload: {
+            data: data?.data,
+            meta: data?.meta,
+          },
+        });
+        return;
+      }
       dispatch({
         type: ACTION_COURSE_TYPES.ALL_COURSES,
-        payload: data?.data,
+        payload: {
+          data: data?.data,
+          meta: data?.meta,
+        },
       });
     } catch (error) {
       throw new Error(error);

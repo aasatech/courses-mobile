@@ -6377,6 +6377,11 @@ react-native-video-controls@^2.8.1:
   dependencies:
     lodash "^4.16.4"
 
+react-native-video-duration@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-video-duration/-/react-native-video-duration-0.1.2.tgz#8b480fd09888bb47fa9140c353dfc6aa2fce6d8f"
+  integrity sha512-+RYfUrnJ/h0k2b/4m2leJXfLQAtfEHSRRpcpTAgELviucz2olh+aXGHhUuPx1cPLC/v84N6+PYVACEE/I4ojSA==
+
 react-native-video-player@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/react-native-video-player/-/react-native-video-player-0.14.0.tgz#7156496191065689c0d2e34dcde9ac903aee583f"

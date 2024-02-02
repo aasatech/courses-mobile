@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {GColor} from '../../constants/Theme/Global';
 
 export default function Layout({children, space = 20}) {
@@ -11,6 +11,8 @@ export default function Layout({children, space = 20}) {
           padding: space,
         },
       ]}>
+      <StatusBar showHideTransition={'fade'}
+      />
       {children}
     </SafeAreaView>
   );

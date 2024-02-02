@@ -34,7 +34,9 @@ export default function MainNavigation() {
           name={routeApp.Course.detail}
           component={CourseDetail}
           options={{
-            header: () => null,
+            headerShown: true,
+            headerTitle:'',
+            headerTransparent: true,
           }}
         />
       </Stack.Navigator>
@@ -77,15 +79,14 @@ export default function MainNavigation() {
           name={routeApp.Course.init}
           component={CourseStack}
           options={({route}) => {
-           
             return {
               title: 'Course',
               // tabBarBackground: () => null,
 
               tabBarStyle: {
-                backgroundColor:GColor.primary500,
+                backgroundColor: GColor.primary500,
                 //  backgroundColor: GColor.primary500,
-                 display: getTabBarVisibility(route) ? 'none' : 'flex',
+                display: getTabBarVisibility(route) ? 'none' : 'flex',
               },
 
               tabBarIcon: ({focused, color, size}) => (
@@ -174,7 +175,7 @@ export default function MainNavigation() {
 }
 const getTabBarVisibility = route => {
   const routeName = getFocusedRouteNameFromRoute(route);
-  if (routeName === routeApp.Course.detail ) {
+  if (routeName === routeApp.Course.detail) {
     return true;
   }
   return false;

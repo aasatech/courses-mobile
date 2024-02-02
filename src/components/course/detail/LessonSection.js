@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   Pressable,
@@ -11,9 +11,10 @@ import ListTile from './ListTile';
 import {GColor} from '../../../constants/Theme/Global';
 import DownloadIcon from 'react-native-vector-icons/Ionicons';
 import VideoPlay from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
 export default function LessonSection({data = [], onSelectVideo}) {
   const lessonChapter = data?.lessons;
+
+  console.log(lessonChapter[0]?.video_url);
 
   return (
     <View>
@@ -24,7 +25,7 @@ export default function LessonSection({data = [], onSelectVideo}) {
           <ListTile
             listStyle={styles.itemStyle}
             title={item?.item?.name}
-            subTitle={item?.item?.name}
+            subTitle={'Duration: '}
             description=""
             textColor={GColor.accent300}
             leading={

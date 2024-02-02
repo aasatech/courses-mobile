@@ -134,8 +134,18 @@ export default function CourseDetail({navigation}) {
 
   return (
     <Layout space={0}>
+      <Modal visible={onFullScreen}>
+        <VideoModal
+          currentThumbnail={currentThumbnail}
+          currentVideo={currentVideo}
+          img_url={store?.singleCourse?.image_url}
+          video_url={store?.singleCourse?.video_url}
+          onFullScreen={onFullScreen}
+          handleToggleFullScreen={handleToggleFullScreen}
+        />
+      </Modal>
       <View>
-        {onFullScreen === false ? (
+        {!onFullScreen && (
           <View
             style={{
               height: 230,
@@ -151,17 +161,6 @@ export default function CourseDetail({navigation}) {
               }}
             />
           </View>
-        ) : (
-          <Modal visible={onFullScreen}>
-            <VideoModal
-              currentThumbnail={currentThumbnail}
-              currentVideo={currentVideo}
-              img_url={store?.singleCourse?.image_url}
-              video_url={store?.singleCourse?.video_url}
-              onFullScreen={onFullScreen}
-              handleToggleFullScreen={handleToggleFullScreen}
-            />
-          </Modal>
         )}
 
         <Pressable

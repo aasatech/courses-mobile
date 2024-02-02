@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, {
   useEffect,
   useLayoutEffect,
@@ -21,6 +22,8 @@ import {
   Pressable,
   Modal,
 } from 'react-native';
+import GoBack from 'react-native-vector-icons/Ionicons';
+
 import {Dimensions} from 'react-native';
 import Layout from '../../components/ui/Layout';
 import {useIsFocused, useRoute} from '@react-navigation/native';
@@ -58,7 +61,7 @@ export default function CourseDetail({navigation}) {
     setCurrentVideo(url);
     setCurrentThumbnail(img);
   };
-  console.log(currentVideo);
+
   const TabItem = [
     {
       id: 0,
@@ -116,14 +119,40 @@ export default function CourseDetail({navigation}) {
   useLayoutEffect(() => {
     getSingleCourse();
   }, [route?.id]);
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', pressBackButton);
 
-    // Cleanup on component unmount
+  useEffect(() => {
+    const handleBackPress = () => {
+      if (onFullScreen) {
+        // Return true to prevent the default back button behavior
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', pressBackButton);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
     };
   }, [onFullScreen]);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: '',
+      headerLeft: () => (
+        <Pressable onPress={() => navigation.goBack()} style={{marginLeft: 5}}>
+          <GoBack
+            size={35}
+            color={GColor.primary500}
+            name="arrow-back-circle"
+          />
+        </Pressable>
+      ),
+      headerTransparent: true,
+    });
+  }, [onFullScreen]);
+
   const handleToggleFullScreen = () => {
     setOnFullScreen(pre => !pre);
   };

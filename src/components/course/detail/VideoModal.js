@@ -34,22 +34,16 @@ export default function VideoModal({
     Orientation.lockToLandscape();
     if (onFullScreen) {
       navigation.setOptions({
-        header: () => null,
+        // header: () => null,
+        headerLeft: () => null,
       });
+      return;
     }
   }, [onFullScreen, navigation]);
   const handleBack = () => {
     handlePress();
-    console.log('Back button pressed!');
   };
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      console.log('Back button press prevented!');
-      return true; // Returning true prevents the default back behavior
-    });
 
-    return () => BackHandler.removeEventListener('hardwareBackPress');
-  }, []);
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <StatusBar hidden />
@@ -64,7 +58,6 @@ export default function VideoModal({
       />
     </View>
   );
-
 }
 const styles = StyleSheet.create({
   container: {

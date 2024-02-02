@@ -18,6 +18,7 @@ import {logoutUser, resetErrorMessage} from '../redux/reducers/authReducer';
 import {AppState} from 'react-native';
 import {storeWithoutPersist} from '../redux/store/storeNoPersist';
 import CourseDetail from '../screens/Home/CourseDetail';
+import GoBack from 'react-native-vector-icons/Ionicons';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 export default function MainNavigation() {
   const Stack = createStackNavigator();
@@ -35,7 +36,9 @@ export default function MainNavigation() {
           component={CourseDetail}
           options={{
             headerShown: true,
-            headerTitle:'',
+            headerTitle: '',
+          
+         
             headerTransparent: true,
           }}
         />

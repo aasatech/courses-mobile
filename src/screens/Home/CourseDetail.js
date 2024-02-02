@@ -132,18 +132,21 @@ export default function CourseDetail({navigation}) {
     return <SkeletonCourseDetail />;
   }
 
+  if (onFullScreen) {
+    return (
+      <VideoModal
+        currentThumbnail={currentThumbnail}
+        currentVideo={currentVideo}
+        img_url={store?.singleCourse?.image_url}
+        video_url={store?.singleCourse?.video_url}
+        onFullScreen={onFullScreen}
+        handleToggleFullScreen={handleToggleFullScreen}
+      />
+    );
+  }
+
   return (
     <Layout space={0}>
-      <Modal visible={onFullScreen}>
-        <VideoModal
-          currentThumbnail={currentThumbnail}
-          currentVideo={currentVideo}
-          img_url={store?.singleCourse?.image_url}
-          video_url={store?.singleCourse?.video_url}
-          onFullScreen={onFullScreen}
-          handleToggleFullScreen={handleToggleFullScreen}
-        />
-      </Modal>
       <View>
         {!onFullScreen && (
           <View

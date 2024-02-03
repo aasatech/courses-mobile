@@ -111,12 +111,15 @@ export default function Courses({navigation}) {
     }
   };
   const onSelectCategories = id => {
+    flatRef.current.scrollToOffset({offset: 0, animated: true});
     if (id === null) {
       setSelectCategories([]);
       setSelectTags([]);
+
       return;
     }
     if (selectCategories.includes(id)) {
+      // handleRefreshPage();
       setSelectCategories(pre => {
         return pre.filter(pre => pre !== id);
       });
@@ -137,7 +140,6 @@ export default function Courses({navigation}) {
   };
 
   useEffect(() => {
-    handleRefreshPage();
     if (selectCategories.length > 0 || selectTags.length > 0) {
       dispatch(filterCourses(null, true, selectCategories, selectTags));
       return;
